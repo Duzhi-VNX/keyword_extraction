@@ -44,18 +44,18 @@ def getKeywords_tfidf(data,stopkey,topK):
     transformer = TfidfTransformer()
     tfidf = transformer.fit_transform(X)
     # 3、获取词袋模型中的关键词
-    word = vectorizer.get_feature_names()
+    word = vectorizer.get_feature_names_out() #In recent scikit-learn versions (starting from around 0.18), the attribute to access vocabulary terms after fitting a CountVectorizer has been renamed from get_feature_names to get_feature_names_out
     # 4、获取tf-idf矩阵，a[i][j]表示j词在i篇文本中的tf-idf权重
     weight = tfidf.toarray()
     # 5、打印词语权重
     ids, titles, keys = [], [], []
     for i in range(len(weight)):
-        print u"-------这里输出第", i+1 , u"篇文本的词语tf-idf------"
+        print ("-------这里输出第", i+1 , "篇文本的词语tf-idf------")
         ids.append(idList[i])
         titles.append(titleList[i])
         df_word,df_weight = [],[] # 当前文章的所有词汇列表、词汇对应权重列表
         for j in range(len(word)):
-            print word[j],weight[i][j]
+            print (word[j],weight[i][j])
             df_word.append(word[j])
             df_weight.append(weight[i][j])
         df_word = pd.DataFrame(df_word,columns=['word'])
@@ -76,7 +76,7 @@ def main():
     dataFile = 'data/sample_data.csv'
     data = pd.read_csv(dataFile)
     # 停用词表
-    stopkey = [w.strip() for w in codecs.open('data/stopWord.txt', 'r').readlines()]
+    stopkey = [w.strip() for w in codecs.open('data/stopWord.txt', 'r', encoding = 'utf-8').readlines()]
     # tf-idf关键词抽取
     result = getKeywords_tfidf(data,stopkey,10)
     result.to_csv("result/keys_TFIDF.csv",index=False)
