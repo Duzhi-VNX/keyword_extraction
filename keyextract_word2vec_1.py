@@ -53,7 +53,7 @@ def buildAllWordsVecs(data, stopkey, model):
         # 词向量写入csv文件，每个词400维
         data_vecs = pd.DataFrame(wordvecs)
         data_vecs.to_csv('result/vecs/wordvecs_' + str(id) + '.csv', index=False)
-        print "document ", id, " well done."
+        print ("document ", id, " well done.")
 
 def main():
     # 读取数据集
